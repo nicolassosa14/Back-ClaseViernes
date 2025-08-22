@@ -32,8 +32,7 @@ const http = require('http');
 
 const path = require('path');
 const fs = require('fs');
-const { timeStamp } = require('console');
-const port = 4000
+const port = 3000
 
 // Crear un servidor HTTP que sirva un archivo HTML
 const server = http.createServer((req, res) => {
@@ -52,8 +51,8 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    } else if (req.url === '/page2') {
-        const filePath = path.join(__dirname, './pages/pagina2.html');
+    } else if (req.url === '/about') {
+        const filePath = path.join(__dirname, './pages/about.html');
 
         fs.readFile(filePath, (err, data) => {
             if (err) {
@@ -66,11 +65,23 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    } else if (req.url === '/status') {
-        // Responder con un mensaje de estado
-        res.end(JSON.stringify({ status: 'Servidor en funcionamiento', timeStamp: new Date().toISOString()}));
+    } else if (req.url === '/time') {
+        // Responder con un mensaje de tiempo actual
+        res.end(JSON.stringify({Hora_Servidor: new Date().toISOString()}));
     }
-    else {
+    else if (req.url === '/contact') {
+        const filePath = path.join(__dirname, './pages/contact.html');
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                console.error(err);
+                res.writeHead(500, {'Content-Type': 'text/plain'});
+                res.end('Error al leer el archivo HTML');
+            }
+            else{
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(data);
+            }
+        }); } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Ruta no encontrada');
     }
