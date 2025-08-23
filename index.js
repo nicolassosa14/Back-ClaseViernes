@@ -33,7 +33,7 @@ const path = require('path');
 const fs = require('fs');
 const port = 3000
 const url = require('url')
-const {IncomingForm, formidable} = require('formidable');
+const {formidable} = require('formidable');
 
 
 // Crear un servidor HTTP que sirva un archivo HTML
@@ -149,7 +149,10 @@ function capturarArch(req, res){
             res.end("Error en la subida");
             return;
         }
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ fields, files }, null, 2));
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(`<h2>Archivo subido con exito</h2>
+                    <br>
+                    <button onclick="window.location.href = 'upload';">Subir Otro</button>
+                    <button onclick="window.location.href = '/';">Volver al inicio</button>`);
         });
 }
